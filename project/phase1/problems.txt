@@ -1,0 +1,25 @@
+1. Bank Manager needs to be able to set time, while time needs to pass
+- enum
+
+2. InfoStorer add account vs UserAccManager: account map 里没有新的account
+- InfoManager add
+- InfoStorer Observer
+
+3. modified static method of infoManager
+
+4. Account User ID => String
+
+5. Need outgoing file
+
+6. UserAccManager getAccount, exception
+
+7. InfoManager as observer to observe password Manager to logoff
+
+8. User toString()
+
+9. Bankmanager possible Factory pattern
+
+10. deposit, paybill Comments
+
+11. Interface
+ Paybill - outgoing.txt method

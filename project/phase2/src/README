@@ -1,0 +1,56 @@
+This is a instruction of the ATM:
+**************************************************************************
+                             START     UP
+**************************************************************************
+ To start up the program(initial the ATM):
+    1. You must run it and it will automatically construct a new BankManager
+with the id of 5101 and the initial password of 1234.
+    2. Log into the initial BankManager account
+    3. Create several user and their account
+    4. Restock the cash machine(well, honestly, here is to initial the amount of money in the cash machine )
+    Now you can log out the Bank Manager Account and you are good to go!
+
+
+
+________________________________________________________________________________________________
+
+What you can do:
+    1. As a user: After log into your account, you will see a menu with 8 options ordered by number. Type the
+     correspond number on keyboard and press enter.
+     Choose "1": You will get a summary of all of your accounts.
+     Choose "2": You will get a Net total of your balance.
+     Choose "3": You will enter to a new menu that have options of all types of accounts that you have. you will have some
+                 options that ordered by number.
+                 After choose the type of account you can choose the specific account that you want to view then you
+                 can choose to see its balance, date of creation and last transaction.
+     Choose "4": You will have a menu of options of all chequing accounts that you have. You can pick one to set it to
+                 be your primary account.
+     Choose "5": You will enter to a menu that have options of deposit, withdraw, regular transaction. Choose the one
+                 you want and enter the necessary input.
+     Choose "6": You can request a creation of a type of account by entering the type.
+     Choose "7": You can reset your password (must be numeric and 4 digit long).
+     Choose "8": You will log out.
+     At each level of menu you will have an option to go back to previous menu.
+     Things to know: you will initially have a chequing account and it is also your primary account.
+
+    2. As a manager: After log into your account. You will see a menu with 5 options ordered by numbers.
+     Type the correspond number on the keyboard and press enter.
+
+     Choose “1”: You can create a new user.
+     Choose “2”: You can choose to undo the last transaction of a certain account.
+     Choose ”3”: You can choose to create a new account. Then, there are 5 kinds of accounts in ordered and available to
+                 be selected: “Credit Account”, “Line of Credit Account”, “Saving Account”, “Checking Account”.
+                 After choosing account, you need to entering some features to complete the initialization of new accounts.
+     Choose “4”: You can choose to restock the ATM machine. There are five bills:”$5”,”$10”,”$20”,”$50”.
+                 You can add the amount of certain denomination by entering the amount and the denomination.
+     Choose “5”: You will log out.
+
+     At each level of menu you will have an option to go back to previous menu.
+
+*****************************************************************************************************************************
+How file store:
+    This program has two txt output file. One is outgoing.txt which will be modified when paying bill.
+    Another is alert.txt which will be modified when Cash machine detects that amount of one of its face value less than
+    20.
+    All other information is store in a serializable file call InfoStorer. All change to user, account, transaction, etc
+    will be record and store into this serializable file and when we start the program this file will be deserialize.
