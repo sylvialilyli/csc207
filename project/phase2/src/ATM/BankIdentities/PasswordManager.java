@@ -1,66 +1,90 @@
 package ATM.BankIdentities;
 
+import javax.sound.sampled.Line;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Observable;
 
-/** The passWordManager class */
-public class PasswordManager extends Observable implements Serializable {
+/** A class manage operations on password of a particular user */
+public class PasswordManager implements Serializable {
 
-    private final String ownerId;
-    private String password;
-    private boolean authority;
+    /** The ID of the user that this password manager is managing for */
+    private final String userID;
 
-    /** Create a new PassWordManager
-     *
-     * @param ownerId the Id of the passwordManager
-     * */
-    public PasswordManager(String ownerId) {
-        this.ownerId = ownerId;
+    /** Whether the user has passed the authorization */
+    private boolean isAuthorized;
+
+    /**
+     * Create a new PasswordManager that handles password of the user with given user ID
+     * @param userID the ID of the user
+     */
+    public PasswordManager(String userID) {
+        this.userID = userID;
     }
 
-    /** get the password of the password manager */
-    private String getPassword() {
-        return password;
+    /** Get the id of the user */
+    public String getUserID() {
+        return userID;
     }
 
-    /** return the authority to confirm the login*/
+    /** Return whether the user is log in, ie, has passed the authorization */
     public boolean isLogin() {
-        return authority;
+        return isAuthorized;
     }
 
-    /** Set the password of the password Manager
+    /**
+     * Encrypt the given password to a more secure String
+     * @param password
+     * @return encrypted password
+     */
+    private String encrypt(String password){
+        Integer raw = Integer.valueOf(password);
+        Integer id = Integer.valueOf(getUserID());
+        return String.valueOf((raw + id) * 2 + 207);
+    }
+
+    /**
+     * Decrypt the given encrypted password to its original form
+     * @param encryptedPassword
+     * @return password
+     */
+    private String decrypt(String encryptedPassword){
+        Integer encrypted = Integer.valueOf(encryptedPassword);
+        Integer id = Integer.valueOf(getUserID());
+        return String.valueOf((encrypted - 207)/2 - id);
+    }
+
+    /** Get the password of the user */
+    private String getPassword(Map<String, String> passwordMap) {
+        return decrypt(passwordMap.get(userID));
+    }
+
+    /**
+     * Set the password of the user
      * @param newPass the new password to assign
      * */
-    public void setPassword(String newPass) {
-        /*if (authority) {
-            this.password = newPass;
-        } else {
-            System.out.println("You don't have authority to modify this.");
-        }*/
-        this.password = newPass;
+    public void setPassword(String newPass, Map<String, String> passwordMap) {
+            passwordMap.put(getUserID(), encrypt(newPass));
     }
 
-    /** Check the entering input of users with the password
-     *
+    /**
+     * Compare the input password with the user's password
+     * The user is authorized or logged in if they are the same
+     * Print out a warming otherwise
      * @param inputPass the entering string from user
      * */
-    public void login(String inputPass) {
-        if (getPassword().equals(inputPass)) {
-            authority = true;
+    public void login(String inputPass, Map<String, String> passwordMap) {
+        if (getPassword(passwordMap).equals(inputPass)) {
+            isAuthorized = true;
         }else{
             System.out.println("Password is wrong!");
         }
     }
 
-    /** The password Manager log out the cycle */
+    /** Represent the process of a user logging out of the system
+     * Notify the observes of this process
+     */
     public void logout(){
-        authority = false;
-        setChanged();
-        notifyObservers();
-    }
-
-    /** get the id of the owner */
-    public String getOwnerId() {
-        return ownerId;
+        isAuthorized = false;
     }
 }

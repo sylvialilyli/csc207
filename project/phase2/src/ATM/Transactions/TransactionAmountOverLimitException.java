@@ -3,6 +3,6 @@ package ATM.Transactions;
 public class TransactionAmountOverLimitException extends Exception {
 
     public TransactionAmountOverLimitException() {
-        super();
+        super("Not enough balance to complete transaction.");
     }
 }

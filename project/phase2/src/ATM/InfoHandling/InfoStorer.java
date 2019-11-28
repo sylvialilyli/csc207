@@ -2,15 +2,14 @@ package ATM.InfoHandling;
 
 import ATM.Accounts.Account;
 import ATM.BankIdentities.BankManager;
+import ATM.BankIdentities.BankStaff;
 import ATM.BankIdentities.User;
 import ATM.Machine.CashMachine;
-import ATM.Transactions.TransactionManager;
+import ATM.Transactions.Transaction;
+import ATM.BankSystem.Date;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Managing the saving and loading of all information
@@ -23,43 +22,65 @@ public class InfoStorer implements Serializable {
     /**A mapping of User ID to User */
     private Map<String, User> userMap;
 
+    /**A mapping of User ID to BankStaff */
+    private Map<String, BankStaff> staffMap;
+
     /**A mapping of Bank manager ID to Bank manager*/
     private Map<String, BankManager> bankManagerMap;
 
-    /**A TransactionManager which has all the transaction information*/
-    private TransactionManager transactionManager;
-
-    /***
-     * Map stored request of account creation. Key takes userID, values are requested account type.
+    /**
+     * A Map stored request of account creation.
+     * Key takes userID, values are requested account type.
      */
-    private Map<String, String> accountCreationRequest;
+    private Map<String, String> requestMap;
 
-    /***
+    /**
+     * A Map storing the password information of every bank identities.
+     * Key takes String ID, values are encrypted password
+     */
+    private Map<String, String> passwordMap;
+
+    /**
+     * accTrans record history of Transaction of specific accounts.
+     */
+    private Map<String, Stack<Transaction>> accTransMap;
+    /**
+     * userTransList record history of Transaction of specific users.
+     */
+    private Map<String, Stack<Transaction>> userTransMap;
+
+    /**
      * CashMachine in this ATM System.
      */
     private CashMachine cashMachine;
 
-    /***
+    private Date date;
+
+    /**
      * Construct a infoStorer.
      */
     public InfoStorer(){
         this.accountMap = new HashMap<String, Account>();
         this.userMap = new HashMap<String, User>();
+        this.staffMap = new HashMap<String, BankStaff>();
         this.bankManagerMap = new HashMap<String, BankManager>();
-        this.transactionManager = TransactionManager.getTransactionManager();
-        this.accountCreationRequest = new HashMap<>();
+        this.requestMap = new HashMap<String, String>();
+        this.passwordMap = new HashMap<String, String>();
+        this.userTransMap = new HashMap<String, Stack<Transaction>>();
+        this.accTransMap = new HashMap<String, Stack<Transaction>>();
         this.cashMachine = new CashMachine();
+        this.date = Date.getDate();
     }
 
-    /***
-     * Get the accounMap
+    /**
+     * Get the accountMap
      * @return accountMap
      */
     public Map<String, Account> getAccountMap() {
         return accountMap;
     }
 
-    /***
+    /**
      * Get the userMap
      * @return userMap
      */
@@ -67,29 +88,41 @@ public class InfoStorer implements Serializable {
         return userMap;
     }
 
-    /***
+    /**
+     * Get the staffMap
+     * @return staffMap
+     */
+    public Map<String, BankStaff> getStaffMap() {
+        return staffMap;
+    }
+
+    /**
      * Get the bankManagerMap
      * @return bankManagerMap
      */
     public Map<String, BankManager> getBankManagerMap() { return bankManagerMap;}
 
-    /***
-     * Get the transactionManager
-     * @return transactionManager
+    /**
+     * Get the requestMap map
+     * @return requestMap
      */
-    public TransactionManager getTransactionManager() {
-        return transactionManager;
+    public Map<String, String> getRequestMap() {
+        return requestMap;
     }
 
-    /***
-     * Get the accountCreationRequest map
-     * @return accountCreationRequest
-     */
-    public Map<String, String> getAccountCreationRequest() {
-        return accountCreationRequest;
+    public Map<String, String> getPasswordMap() {
+        return passwordMap;
     }
 
-    /***
+    public Map<String, Stack<Transaction>> getAccTransMap() {
+        return accTransMap;
+    }
+
+    public Map<String, Stack<Transaction>> getUserTransMap() {
+        return userTransMap;
+    }
+
+    /**
      * Get the CashMachine
      * @return CashMachine
      */
@@ -97,27 +130,7 @@ public class InfoStorer implements Serializable {
         return cashMachine;
     }
 
-    /***
-     * Add a user to userMap
-     * @param newUser the user to be added
-     */
-    public void addUser(User newUser){
-        this.userMap.put(newUser.getId(), newUser);
-    }
-
-    /***
-     * Add a bank manager to bankManagerMap
-     * @param newBankManager the BankManager to be added
-     */
-    public void addBankManager(BankManager newBankManager){
-        this.bankManagerMap.put(newBankManager.getId(), newBankManager);
-    }
-
-    /***
-     * Add an account to accountMap
-     * @param newAccount the Account to be added
-     */
-    public void addAccount(Account newAccount){
-        this.accountMap.put(newAccount.getAccountNum(), newAccount);
+    public Date getDate() {
+        return date;
     }
 }

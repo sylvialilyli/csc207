@@ -1,23 +1,18 @@
 package ATM.Transactions;
 
 import ATM.Accounts.Account;
+import ATM.Machine.CashNotWithdrawableException;
+import ATM.Machine.NotEnoughMoneyException;
+import ATM.org.openexchangerates.oerjava.OpenExchangeRates;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /***
  * Abstract class Transaction
  */
 public abstract class Transaction implements Serializable {
-    private final double amount;
     private boolean happened;
-
-    /***
-     * Create a new Transaction
-     * @param amount the amount of money this transaction involves.
-     */
-    public Transaction(double amount) {
-        this.amount = amount;
-    }
 
     //public abstract int getFromAccNum();
 
@@ -34,14 +29,6 @@ public abstract class Transaction implements Serializable {
      * @return Account if there is one, null if there is not.
      */
     public abstract Account getToAcc();
-
-    /***
-     * Return the amount of money this transaction involves.
-     * @return amount in double format.
-     */
-    public double getAmount() {
-        return amount;
-    }
 
     /***
      * Set the boolean field happened as input.
@@ -65,7 +52,7 @@ public abstract class Transaction implements Serializable {
      * @throws TransactionAmountOverLimitException if the amount this
      * transaction involves is more than what can be took out.
      */
-    abstract void begin() throws TransactionAmountOverLimitException;  //make it default
+    abstract void begin();  //make it default
 
     /***
      * Abstract method. Return a reversed version of the input transaction.
@@ -73,5 +60,7 @@ public abstract class Transaction implements Serializable {
      * @throws ReverseNotPossibleException
      */
     public abstract Transaction reverse() throws ReverseNotPossibleException;
+
+    abstract boolean possibleToBegin() throws TransactionAmountOverLimitException;
 
 }

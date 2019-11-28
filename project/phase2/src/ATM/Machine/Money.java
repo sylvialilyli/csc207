@@ -1,15 +1,13 @@
 package ATM.Machine;
 
-/***
- * Money class
- */
+/** A class representing a money object with different number of various cash bills */
 public class Money {
     private int numFive;
     private int numTen;
     private int numTwenty;
     private int numFifty;
 
-    /***
+    /**
      * Construct a new Money
      * @param numFive (integer) number of $5
      * @param numTen (integer) number of $10
@@ -23,7 +21,7 @@ public class Money {
         this.numFifty = numFifty;
     }
 
-    /***
+    /**
      * Get the number of $5
      * @return int
      */
@@ -31,7 +29,7 @@ public class Money {
         return numFive;
     }
 
-    /***
+    /**
      * Get the number of $10
      * @return int
      */
@@ -39,7 +37,7 @@ public class Money {
         return numTen;
     }
 
-    /***
+    /**
      * Get the number of $20
      * @return int
      */
@@ -47,11 +45,22 @@ public class Money {
         return numTwenty;
     }
 
-    /***
+    /**
      * Get the number of $50
      * @return int
      */
     public int getNumFifty() {
         return numFifty;
+    }
+
+    /** Return a String representation of this Money object */
+    @Override
+    public String toString() {
+        return "Money { " +
+                "numFive = " + numFive +
+                ", numTen = " + numTen +
+                ", numTwenty = " + numTwenty +
+                ", numFifty = " + numFifty +
+                " }";
     }
 }

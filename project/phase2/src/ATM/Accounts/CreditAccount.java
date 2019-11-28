@@ -1,36 +1,52 @@
 package ATM.Accounts;
 
-import ATM.InfoHandling.InfoManager;
+import java.util.ArrayList;
 
 /**
- * Credit account class
+ * A class that represent a credit account
  */
 public class CreditAccount extends DebtAccount {
-    private final String accountNum = "001" + getOwnerID()+ (InfoManager.getInfoManager().getAccountNum() + 1);
+
+    /** The account number */
+    private final String accountNum;
+
+    private final String creditCode = "001";
 
     /**
      * Constructor of credit account
-     * Create a new credit account with ownerID and limit
+     * Create a new credit account with ownerID and limit and the total number of accounts created
      *
      * @param ownerID the ID of the owner
      * @param limit the limit of this credit account
+     * @param totalNumAcc the total number of accounts created
+     * @param type the currency type
      */
-    public CreditAccount(String ownerID, double limit){
-        super(ownerID, limit);
+    public CreditAccount(ArrayList<String> ownerID, double limit, int totalNumAcc, String type){
+        super(ownerID, limit, type);
+        this.accountNum = creditCode + (totalNumAcc+1);
     }
 
-    /**Getter method for credit account number*/
+    /**Getter method for credit account number
+     * @return account number
+     */
     public String getAccountNum(){
         return this.accountNum;
     }
 
-    /**@string a string combined with account type, account number */
+    /**
+     * Return a String representation of this account
+     * @return a string combined with account type, account number
+     */
     @Override
     public String toString() {
-        return ("Credit Account " + this.accountNum);
+        return (this.getCurrencyType() + " Credit Account " + this.accountNum);
     }
 
-    /** @return a String that includes the summary of credit account: type, number, balance */
+    /**
+     * Return the summary of this account
+     * @return a String combined with account type, account number, balance
+     */
+    @Override
     public String getSummary() {
         return (this.toString() + " , Remaining Balance: " + getBalance());
     }

@@ -1,52 +1,77 @@
 package ATM.Accounts;
 
-import ATM.InfoHandling.InfoManager;
+import ATM.Accounts.Plans.Plan;
+
+import java.util.ArrayList;
 
 /**
- * Saving account class
+ * A class that represent a saving account
  */
-public class SavingAccount extends AssetAccount {
-    private double availableCredit = getBalance();
-    private ISaverPlan iSaverPlan;
-    private final String accountNum = "004" + getOwnerID() + (InfoManager.getInfoManager().getAccountNum() + 1);
+public class SavingAccount extends AssetAccount implements TimeSensitive{
+
+    /** The saving plan for this account*/
+    private Plan Plan;
+
+    /** The account number */
+    private final String accountNum;
+
+    private final String savingCode = "004";
 
     /**
      * Constructor of saving account
-     * Create a new saving account with ownerID and ISaverPlan
+     * Create a new saving account with ownerID, ISaverPlan and the total number of accounts created
      *
      * @param ownerID the ID of the owner
-     * @param the_plan the plan which result in the value of interest
+     * @param plan the plan which result in the value of interest
+     * @param totalNumAcc the total number of accounts created
+     * @param type the currency type
      */
-    public SavingAccount(String ownerID, ISaverPlan the_plan){
-        super(ownerID);
-        this.iSaverPlan = the_plan;
-        setBalance(iSaverPlan.compute(getBalance()));
+    public SavingAccount(ArrayList<String> ownerID, Plan plan, int totalNumAcc, String type){
+        super(ownerID, type);
+        this.Plan = plan;
+        this.accountNum = savingCode +  (totalNumAcc + 1);
+        setBalance(Plan.compute(getBalance().getAmount()));
     }
 
-    /**Getter method for available credit */
+    /**Getter method for available credit
+     * @return available credit: the amount of money which can be retrieved from this account
+     */
     @Override
-    public double getAvailableCredit() {
-        return availableCredit;
+    public Currency getAvailableCredit() {
+        return getBalance();
     }
 
-    /**Getter method for account number */
+    /**Getter method for account number
+     * @return account number
+     */
     @Override
     public String getAccountNum(){
         return accountNum;
     }
 
     /**Setter method for saver plan */
-    public void setSaverPlan(ISaverPlan s) {
-        this.iSaverPlan = s;
+    public void setSaverPlan(Plan s) {
+        this.Plan = s;
     }
 
-    /**@string a string combined with account type, account number */
+    /**
+     * Return a String representation of this account
+     * @return a string combined with account type, account number
+     */
     @Override
     public String toString() {
-        return ("Saving Account " + this.accountNum);
+        return (this.getCurrencyType() + " Saving Account " + this.accountNum);
     }
 
-    /** @return a String that includes the summary of saving account: type, number, balance */
+    @Override
+    public void compute(){
+        setBalance(Plan.compute(getBalance().getAmount()));
+    }
+
+    /**
+     * Return the summary of this account
+     * @return a String combined with account type, account number, balance
+     */
     public String getSummary() {
         return (this.toString() + " , Remaining Balance: " + getBalance());
     }

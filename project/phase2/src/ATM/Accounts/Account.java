@@ -1,19 +1,26 @@
 package ATM.Accounts;
 
+import ATM.Accounts.TransferTypes.TransferInable;
+import ATM.BankSystem.Date;
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 /**
  * An abstract class that represents a bank account
  */
-public abstract class Account implements Withdrawable, TransferInable, Payable, Depositable, Serializable {
+public abstract class Account implements Serializable {
 
-    /**The time when an account is created */
-    private final LocalDateTime dateOfCreation = LocalDateTime.now();
+    /**The date when an account is created */
+    private LocalDate dateOfCreation = Date.getDate().getSystemCurrentTime();
+
+    /**The number of owners*/
+    private int numOwner;
 
     /**The ID of the User whom this account belongs to */
-    private String ownerID;
+    private ArrayList<String> ownerID;
 
     /**
      * Constructor of account
@@ -21,42 +28,52 @@ public abstract class Account implements Withdrawable, TransferInable, Payable, 
      *
      * @param ownerID the ID of the owner
      */
-    public Account(String ownerID){
+    public Account(ArrayList<String> ownerID){
         this.ownerID = ownerID;
+        this.numOwner = ownerID.size();
     }
 
     /**Return the User ID */
-    public String getOwnerID(){ return ownerID;}
+    public ArrayList<String> getOwnerID() {
+        return ownerID;
+    }
 
+    /**Return the number of users */
+    public int getNumOwner(){return numOwner;}
 
     /**Return the date of Creation */
-    public LocalDateTime getDateOfCreation(){
+    public LocalDate getDateOfCreation(){
         return dateOfCreation;
     }
 
-    /**Abstract Method for deposit money to account*/
-    public abstract void deposit(double amount);
+    public void addOwner(String newOwner){
+        ownerID.add(newOwner);
+    }
+
+    public boolean containsOwner(String owner){
+        return owner.contains(owner);
+    }
+
+    public void removeOwner(String owner){
+        ownerID.remove(owner);
+    }
 
     /**Abstract Method for getting available credit from account */
-    public abstract double getAvailableCredit();
+    public abstract Currency getAvailableCredit();
 
     /**Abstract Method for getting account number from account */
     public abstract String getAccountNum();
 
     /**Abstract Method for getting balance from account */
-    public abstract double getBalance();
+    public abstract Currency getBalance();
+
+    public abstract String getCurrencyType();
 
     /**Abstract Method for setting balance of account */
     public abstract void setBalance(double amount);
 
-    /**Abstract Method for transfering money to account */
-    public abstract void transferIn(double amount);
-
-    /**Abstract Method for paying money from account */
-    public abstract void pay(double amount);
-
-    /**Abstract Method for withdraw money from account */
-    public abstract void withdraw(double amount);
-
     public abstract String getSummary();
+
+    /** Abstract method for calculating the net balance*/
+    public abstract Currency getNetBalance();
 }

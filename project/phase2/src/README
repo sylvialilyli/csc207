@@ -2,55 +2,112 @@ This is a instruction of the ATM:
 **************************************************************************
                              START     UP
 **************************************************************************
+
  To start up the program(initial the ATM):
-    1. You must run it and it will automatically construct a new BankManager
-with the id of 5101 and the initial password of 1234.
-    2. Log into the initial BankManager account
-    3. Create several user and their account
-    4. Restock the cash machine(well, honestly, here is to initial the amount of money in the cash machine )
-    Now you can log out the Bank Manager Account and you are good to go!
+    1. Run the main method(located at GUI package StartMenu). It will automatically create a bank manager with the
+    id of 5101 and the initial password of 1234.
+    2. Log into the initial BankManager account(ID: 5101, Password: 1234.  You can change your password to whatever you
+    want).
+    3. Create several user and their account(at least one user)
+    4. Restock the cash machine(Initial the amount of money in the cash machine) Note: this step is important if you
+     do not restock the cash machine won't have any money
+
+    Now you are good to go!
+
+   Remember to log out, otherwise the initial will fail.
 
 
+**************************************************************************
+                       WHAT   YOU   CAN   DO
+**************************************************************************
 
-________________________________________________________________________________________________
+Bank Manager:
+    After log into your account you have options to do things list below(Click the button):
+        1. Create User: After click this button you will have to choice a currency type for
+        this user's initial chequing account then click the create button.
+        2. Restock: After click this button you will see a menu of all value of money please put value in every single
+        blank.
+        3. Create Stuff: Same as create user.
+        4. Create Account: After you click this button you will see several options refer to different type of account.
+           Choice the one you want to create and a new windows will bump out and you will have to input the user id and
+            relate inputs of the specific account.
+        5. Undo User Transaction: After click this button you will have to input the user id and how many transactions
+        you want to undo
+        6. Undo Account Transaction: After click this button you will have to input the account id and amount of
+        transactions you want yo undo.
+        7. Check Machine Balance: After click this button the balance of Cash Machine will show up.
+        8. Log out.
 
-What you can do:
-    1. As a user: After log into your account, you will see a menu with 8 options ordered by number. Type the
-     correspond number on keyboard and press enter.
-     Choose "1": You will get a summary of all of your accounts.
-     Choose "2": You will get a Net total of your balance.
-     Choose "3": You will enter to a new menu that have options of all types of accounts that you have. you will have some
-                 options that ordered by number.
-                 After choose the type of account you can choose the specific account that you want to view then you
-                 can choose to see its balance, date of creation and last transaction.
-     Choose "4": You will have a menu of options of all chequing accounts that you have. You can pick one to set it to
-                 be your primary account.
-     Choose "5": You will enter to a menu that have options of deposit, withdraw, regular transaction. Choose the one
-                 you want and enter the necessary input.
-     Choose "6": You can request a creation of a type of account by entering the type.
-     Choose "7": You can reset your password (must be numeric and 4 digit long).
-     Choose "8": You will log out.
-     At each level of menu you will have an option to go back to previous menu.
-     Things to know: you will initially have a chequing account and it is also your primary account.
+        In any sub-menu you can click "back" to go back.
 
-    2. As a manager: After log into your account. You will see a menu with 5 options ordered by numbers.
-     Type the correspond number on the keyboard and press enter.
 
-     Choose “1”: You can create a new user.
-     Choose “2”: You can choose to undo the last transaction of a certain account.
-     Choose ”3”: You can choose to create a new account. Then, there are 5 kinds of accounts in ordered and available to
-                 be selected: “Credit Account”, “Line of Credit Account”, “Saving Account”, “Checking Account”.
-                 After choosing account, you need to entering some features to complete the initialization of new accounts.
-     Choose “4”: You can choose to restock the ATM machine. There are five bills:”$5”,”$10”,”$20”,”$50”.
-                 You can add the amount of certain denomination by entering the amount and the denomination.
-     Choose “5”: You will log out.
+User:
+    After log into your account you have options to do things list below:
+        1. Get summary: After click this button, the summary of your account will show up.(All detail of all your account
+         include type, balance, account id and so on)
+        2. Get Net total: After click this button, the net balance of all your accounts
+        3. Set primary account: After click this button you will see some available accounts list by number and you can
+         choose one by type in the number (1, 2, 3, 4).
+        4. Change Password: After click this button you will have to input the new password
+        (NOTE!!!! DIGIT ONLY
+        ALSO DO NOT START PASSWORD WITH 0!!!!!!)
+        5. Request: After click this you can input the string to send the request
+            Format of this string:
+                you should specify your userID and whether you want to create new account or share an account with other
+                If you want to create account you should declare the type of account you want
+                If you want to share the account you should declare the account number the the user ID of the user you
+                want to share with.
+             WARNING: If your message not meet the requirement it will be ignore.
 
-     At each level of menu you will have an option to go back to previous menu.
+        6. Make Transaction: After click this button you will have to choice the type of transaction you want
+            (1). Regular transaction: you can choose the "from" account and you have to input the amount of money and
+            the account id of "to" account.
+            (2). Deposit: you can choose the "to" account and you have yo input amount of money you want to deposit.
+            (3). Withdraw: you can choose the "from" account and you have to input the amount of money you want to
+            withdraw  (NOTE!!! PLEASE input the number that is a multiple of 5 AND if you input DECIMAL the amount will
+            be the floor of the number in another word the decimal will be erased(5.7 change to 5, 5.3 change to 5)
+            (4). PayBill：you can choose the "from" account and you have to input the string of the payee as well as the
+            amount of money.
+        7.Log out.
+
+        You can go back at any level of the menu.
+
+
+Bank Stuff:
+       you have all user's function and you can create user and restock.
+       All menu are same to previous explain.
+       Please refer to Bank Manger and User.
+
+
+   !!!User will take the responsibility of any irregular operation!!!!
 
 *****************************************************************************************************************************
 How file store:
-    This program has two txt output file. One is outgoing.txt which will be modified when paying bill.
-    Another is alert.txt which will be modified when Cash machine detects that amount of one of its face value less than
-    20.
-    All other information is store in a serializable file call InfoStorer. All change to user, account, transaction, etc
-    will be record and store into this serializable file and when we start the program this file will be deserialize.
+        This program have several output file(txt file):
+        1. When the Cash machine lack of money it will write to alert.txt (real life manager will read this)
+        2. When any bank stuff create user or restock this action will be record into record.txt
+        3. When any user pay bill, this action will be record by outgoing.txt
+       All other data will be store in a serializable file called InfoStorer. Those data will be deserialized when the
+       program start and after any bank identity log out the change will be serialized which means, if you didn't log out
+       all change will not be stored.
+
+*****************************************************************************************************************************
+
+New features:
+    1. GUI. In this version you will have a graphic UI.
+    2. New Bank Identity called Bank Stuff who can create user and restock who is also a user(own accounts)
+    Note: bank stuff's create user and restock are different from bank manager's. Bank Stuff's method will be recorded
+    by record.txt
+    3. New account called GIC Account which is a kind of investment account. Interest depends on different plans.
+    After creation(set the principle and period) you should not withdraw within the period. But if you want you will
+    only receive 8% of the interest(compound monthly)
+    4. Saving account can choose the plan(interest rate)
+    5. Undo Transaction can Undo user's and account's also you can undo several recent transactions.
+    6. All account have an instance called currency you can choose the currency when create(they are also transferable
+    but when withdraw, you can only withdraw CAD, this means you can withdraw from Other currency account but the money
+    you get will be CAD)
+
+
+*****************************************************************************************************************************
+Warning: For all blank block. Please make sure to input somtthing(0 if you want it to be empty), Otherwise it will not
+function correctly.

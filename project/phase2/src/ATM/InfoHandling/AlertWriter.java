@@ -19,13 +19,7 @@ public class AlertWriter implements WriteTXT, Serializable {
     public void write(String content){
         File file = new File(path);
         try{
-            if(file.exists()==false){
-                file.createNewFile();
-            }
-            PrintWriter out = new PrintWriter(new FileWriter(file, true));
-
-            out.append(content + "\n");
-            out.close();
+            writeHelper(file, content);
         }catch(IOException e){
             System.out.println("Alert is not recorded.");
         }
